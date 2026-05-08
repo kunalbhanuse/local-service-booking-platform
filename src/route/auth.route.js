@@ -1,0 +1,16 @@
+import { Router } from "express";
+import * as controller from "../controllers/auth.controllers.js";
+import { isLoggedIn } from "../middleware/auth.middleware.js";
+
+const authRouter = Router();
+
+authRouter.post("/signup", controller.signup);
+authRouter.post("/login", controller.login);
+authRouter.post("/getme", isLoggedIn, controller.getme);
+authRouter.post("/logout", isLoggedIn, controller.logout);
+
+authRouter.get("/rotateToken", controller.rotateTokens);
+
+authRouter.post("/forgetPassword", controller.forgetPassword);
+authRouter.post("/resetPassword", controller.resetPassword);
+export default authRouter;
