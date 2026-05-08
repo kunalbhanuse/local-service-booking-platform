@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { prisma } from "../db/prisma.js";
+import { prisma } from "../../common/db/prisma.js";
 import {
   validateSignUp,
   validateLogin,
@@ -8,8 +8,8 @@ import {
 import {
   generateAccessRefreshToken,
   verifyRefreshToken,
-} from "../utility/jwt.utility.js";
-import { sendMail } from "../utility/email.js";
+} from "../../common/utility/jwt.utility.js";
+import { sendMail } from "../../common/utility/email.js";
 import crypto from "crypto";
 
 export async function signup(req, res) {

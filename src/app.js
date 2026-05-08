@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 const app = express();
-import authRouter from "./route/auth.route.js";
+import authRouter from "./module/auth/auth.route.js";
 import cookieParser from "cookie-parser";
 
 app.use(express.json());

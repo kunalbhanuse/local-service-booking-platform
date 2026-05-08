@@ -1,5 +1,5 @@
-import { prisma } from "../db/prisma.js";
-import { verifyAccessToken } from "../utility/jwt.utility.js";
+import { prisma } from "../../common/db/prisma.js";
+import { verifyAccessToken } from "../../common/utility/jwt.utility.js";
 
 export const isLoggedIn = async (req, res, next) => {
   try {
