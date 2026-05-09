@@ -1,0 +1,26 @@
+User signs up
+        ↓
+role = CUSTOMER by default
+        ↓
+Logged-in user applies to become service provider
+        ↓
+ServiceProvider profile/request is created with status PENDING
+        ↓
+Admin approves
+        ↓
+ServiceProvider status = APPROVED
+User role = SERVICE_PROVIDER
+
+
+--------------------------------------------------------------
+USER applies
+   ↓
+Provider created (PENDING)
+   ↓
+Admin dashboard lists PENDING providers
+   ↓
+Admin opens provider details
+   ↓
+Approve / Reject
+   ↓
+Status updated

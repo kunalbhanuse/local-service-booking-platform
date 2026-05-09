@@ -8,13 +8,50 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  refreshToken String?
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(CUSTOMER)
+
+  refreshToken        String?
   passwordResetToken  String?
   passwordResetExpiry DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  provider Provider?
+}
+
+model Provider {
+  id Int @id @default(autoincrement())
+
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id])
+
+  businessName String?
+  bio          String?
+  phone        String
+  city         String
+  area         String
+  experience   Int?
+
+  status      ApprovalStatus @default(PENDING)
+  isAvailable Boolean        @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  CUSTOMER
+  SERVICE_PROVIDER
+  ADMIN
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
