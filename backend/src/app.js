@@ -4,7 +4,14 @@ const app = express();
 import cookieParser from "cookie-parser";
 import authRouter from "./module/auth/auth.route.js";
 import provider from "./module/provider/provider.route.js";
+import cors from "cors";
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 

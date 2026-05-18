@@ -1,12 +1,16 @@
+import { Home } from "lucide-react";
 import "./App.css";
-import { Button } from "./components/ui/button";
+import Login from "./pages/auth/Login";
+import { Routes, Route } from "react-router-dom";
+import Signup from "./pages/auth/Signup";
 
 function App() {
   return (
-    <>
-      <h1 className="text-red font-bold">Welcome to Vite + React</h1>
-      <Button>Click_me</Button>
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
   );
 }
 

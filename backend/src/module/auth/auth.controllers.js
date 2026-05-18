@@ -41,7 +41,7 @@ export async function signup(req, res) {
 
     return res.status(201).json({
       message: "User registered successfully",
-      user,
+      data: user,
     });
   } catch (error) {
     return res.status(500).json({
