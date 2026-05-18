@@ -3,6 +3,8 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { useForm } from "react-hook-form";
 import { api } from "../../api/axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface signUpFormData {
   name: string;
@@ -11,6 +13,8 @@ interface signUpFormData {
 }
 
 function Signup() {
+  const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
   const {
     register,
     handleSubmit,
@@ -18,9 +22,16 @@ function Signup() {
   } = useForm<signUpFormData>();
 
   const onsubmit = async (data: signUpFormData) => {
-    const responce = await api.post("/auth/signup", data);
-    const result = responce.data.data;
-    console.log(result);
+    try {
+      const responce = await api.post("/auth/signup", data);
+      const result = responce.data.data;
+      console.log(result);
+      alert("signup success");
+      navigate("/login");
+    } catch (error: any) {
+      const message = error?.response?.data?.message;
+      setErrorMsg(message);
+    }
   };
   return (
     <div className="min-h-screen flex justify-between p-1 ">
@@ -35,6 +46,7 @@ function Signup() {
           <h1 className=" font-bold text-3xl">SignUp</h1>
         </div>
         <div className="w-full max-w-md ">
+          {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
           <form
             onSubmit={handleSubmit(onsubmit)}
             className="flex flex-col gap-6 items-center"

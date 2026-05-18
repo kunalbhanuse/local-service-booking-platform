@@ -6,10 +6,10 @@ const authRouter = Router();
 
 authRouter.post("/signup", controller.signup);
 authRouter.post("/login", controller.login);
-authRouter.post("/getme", isLoggedIn, controller.getme);
+authRouter.get("/getme", isLoggedIn, controller.getme);
 authRouter.post("/logout", isLoggedIn, controller.logout);
 
-authRouter.get("/rotateToken", controller.rotateTokens);
+authRouter.post("/rotateToken", controller.rotateTokens);
 
 authRouter.post("/forgetPassword", controller.forgetPassword);
 authRouter.post("/resetPassword", controller.resetPassword);

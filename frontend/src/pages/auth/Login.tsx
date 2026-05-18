@@ -3,6 +3,8 @@ import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { Link } from "react-router-dom";
 import { api } from "../../api/axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormData {
   email: string;
@@ -10,6 +12,8 @@ interface LoginFormData {
 }
 
 function Login() {
+  const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
   const {
     register,
     handleSubmit,
@@ -19,13 +23,14 @@ function Login() {
   const onsubmit = async (data: LoginFormData) => {
     try {
       const responce = await api.post("/auth/login", data);
-      const result = responce.data;
-      console.log(result);
+      const access_token = responce.data.data;
+      localStorage.setItem("access_token", access_token);
+      alert("Login success");
+      navigate("/me");
     } catch (error: any) {
-      console.log(
-        "error:-",
-        error?.response?.data?.message || "Something went wrong",
-      );
+      const message = error?.response?.data?.message || "Something went wrong";
+
+      setErrorMsg(message);
     }
   };
 
@@ -43,6 +48,7 @@ function Login() {
           <h1 className=" font-bold text-3xl">Login</h1>
         </div>
         <div className="w-full max-w-md ">
+          {errorMsg && <p className="text-red-500 text-sm">{errorMsg}</p>}
           <form
             onSubmit={handleSubmit(onsubmit)}
             className="flex flex-col gap-6 items-center"
