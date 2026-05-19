@@ -24,6 +24,14 @@ export const verifyAccessToken = (token) => {
   return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 };
 
+// export const verifyAccessToken = (token) => {
+//   try {
+//     return jwt.verify(token, process.env.ACCESS_SECRET);
+//   } catch (err) {
+//     return null; // VERY IMPORTANT
+//   }
+// };
+
 export const verifyRefreshToken = (token) => {
   return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 };

@@ -13,6 +13,12 @@ export const isLoggedIn = async (req, res, next) => {
     const token = header.split(" ")[1];
     // console.log("TOKEN:", token);
     const decode = await verifyAccessToken(token);
+    console.log("DECODE:", decode);
+    if (!decode) {
+      return res.status(401).json({
+        message: "forbidden",
+      });
+    }
     const user = await prisma.user.findUnique({
       where: { id: Number(decode.id) },
       select: {
@@ -22,9 +28,9 @@ export const isLoggedIn = async (req, res, next) => {
         createdAt: true,
       },
     });
-    // console.log("DECODE:", decode);
-    // console.log("ID TYPE:", typeof decode.id);
-    // console.log("decode:-", user);
+    console.log("DECODE:", decode);
+    console.log("ID TYPE:", typeof decode.id);
+    console.log("decode:-", user);
 
     req.user = user;
 
