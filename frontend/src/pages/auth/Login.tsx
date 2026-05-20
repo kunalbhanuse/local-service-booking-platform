@@ -81,6 +81,9 @@ function Login() {
             <p className="text-gray-800 ">
               Don’t have an account? <Link to={"/signup"}>SignUp</Link>{" "}
             </p>
+            <p>
+              <Link to={"/forgotPassword"}>Forget Password</Link>
+            </p>
           </form>
         </div>
       </div>
