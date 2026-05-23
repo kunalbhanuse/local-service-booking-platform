@@ -25,12 +25,11 @@ export const isLoggedIn = async (req, res, next) => {
         id: true,
         name: true,
         email: true,
+        role: true,
         createdAt: true,
       },
     });
-    console.log("DECODE:", decode);
-    console.log("ID TYPE:", typeof decode.id);
-    console.log("decode:-", user);
+    console.log("user", user);
 
     req.user = user;
 
