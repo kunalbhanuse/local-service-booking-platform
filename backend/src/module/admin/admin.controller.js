@@ -1,4 +1,5 @@
 import { prisma } from "../../common/db/prisma.js";
+import { updateProviderStatusSchema } from "./dto/admin.dto.js";
 
 export const getAllProvider = async (req, res) => {
   try {
@@ -6,7 +7,7 @@ export const getAllProvider = async (req, res) => {
     if (
       status !== "PENDING" &&
       status !== "APPROVED" &&
-      status !== "   REJECTED"
+      status !== "REJECTED"
     ) {
       return res.status(200).json({
         error: {
@@ -38,7 +39,7 @@ export const getProviderById = async (req, res) => {
   try {
     const { id } = req.params;
     if (!id) {
-      return res.status().json({
+      return res.status(400).json({
         error: { message: "Id is not provided " },
       });
     }
@@ -63,4 +64,50 @@ export const getProviderById = async (req, res) => {
   }
 };
 
-export const updateProviderStatus = async (req, res) => {};
+export const updateProviderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).json({
+        error: { message: "Id is not provided " },
+      });
+    }
+    const validateReqBody = await updateProviderStatusSchema.parseAsync(
+      req.body,
+    );
+    const { status } = validateReqBody;
+
+    const provider = await prisma.provider.findUnique({
+      where: { id: Number(id) },
+    });
+    if (!provider) {
+      return res.status(404).json({
+        error: {
+          message: "Provider not found",
+        },
+      });
+    }
+
+    if (provider?.status !== "PENDING") {
+      return res.status(400).json({
+        error: {
+          message: "Only pending providers can be approved or rejected",
+        },
+      });
+    }
+
+    const updateProvider = await prisma.provider.update({
+      where: { id: Number(id) },
+      data: { status },
+    });
+    return res.status(200).json({
+      message: `Provider ${status.toLowerCase()} successfully`,
+      success: true,
+      data: updateProvider,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};

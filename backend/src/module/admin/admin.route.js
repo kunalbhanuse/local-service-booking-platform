@@ -18,4 +18,11 @@ adminRouter.get(
   adminMiddleware,
   controller.getProviderById,
 );
+
+adminRouter.post(
+  "/provider/:id/update",
+  isLoggedIn,
+  adminMiddleware,
+  controller.updateProviderStatus,
+);
 export default adminRouter;
