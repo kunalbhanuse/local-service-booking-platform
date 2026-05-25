@@ -31,7 +31,30 @@ export async function applyService(req, res) {
       provider: newProvider,
     });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({
+      error: {
+        message: error.message || "Internal server error",
+      },
+    });
+  }
+}
+
+export async function allProvider(req, res) {
+  try {
+    const allApprovedProvider = await prisma.provider.findMany({
+      where: { status: "APPROVED" },
+      include: { user: true },
+    });
+    res.status(200).json({
+      success: true,
+      message: "All Approved  provider featched succesfully ",
+      data: allApprovedProvider,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: {
+        message: error.message || "Internal server error",
+      },
+    });
   }
 }
