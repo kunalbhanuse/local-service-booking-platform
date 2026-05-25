@@ -1,10 +1,8 @@
-import { Outlet } from "react-router-dom";
-
-export default function AuthLayout() {
+export default function AuthLayout({ children }) {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <h1>Navbar</h1>
-      <Outlet />
+      {children}
     </div>
   );
 }

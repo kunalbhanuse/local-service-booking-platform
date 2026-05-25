@@ -15,6 +15,7 @@ interface signUpFormData {
 function Signup() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -33,6 +34,7 @@ function Signup() {
       setErrorMsg(message);
     }
   };
+
   return (
     <div className="min-h-screen flex justify-between p-1 ">
       <div className=" w-1/2  flex justify-center items-center">
