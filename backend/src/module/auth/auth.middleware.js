@@ -13,7 +13,7 @@ export const isLoggedIn = async (req, res, next) => {
     const token = header.split(" ")[1];
     // console.log("TOKEN:", token);
     const decode = await verifyAccessToken(token);
-    console.log("DECODE:", decode);
+    // console.log("DECODE:", decode);
     if (!decode) {
       return res.status(401).json({
         message: "forbidden",
@@ -29,14 +29,26 @@ export const isLoggedIn = async (req, res, next) => {
         createdAt: true,
       },
     });
-    console.log("user", user);
+    // console.log("user", user);
 
     req.user = user;
 
     next();
   } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        message: "jwt expired",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        message: "invalid token",
+      });
+    }
+
     return res.status(500).json({
-      message: error.message,
+      message: "Internal server error",
     });
   }
 };

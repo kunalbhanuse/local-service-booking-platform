@@ -2,7 +2,7 @@ import { prisma } from "../../common/db/prisma.js";
 import { updateProviderStatusSchema } from "./dto/admin.dto.js";
 
 export const getAllProvider = async (req, res) => {
-  console.log("getallProvider Hit");
+  // console.log("getallProvider Hit");
   try {
     const { status } = req.query;
     if (

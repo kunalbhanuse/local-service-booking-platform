@@ -23,10 +23,15 @@ function Login() {
   const onsubmit = async (data: LoginFormData) => {
     try {
       const responce = await api.post("/auth/login", data);
-      const access_token = responce.data.data;
+      const access_token = responce.data.data.access_token;
+      const user = responce.data.data.user;
       localStorage.setItem("access_token", access_token);
       alert("Login success");
-      navigate("/me");
+      if (user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } catch (error: any) {
       const message = error?.response?.data?.message || "Something went wrong";
 

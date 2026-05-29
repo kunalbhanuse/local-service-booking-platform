@@ -207,7 +207,7 @@ export default function Home() {
               display: "inline-block",
             }}
           />
-          Platform v2.0 is live
+          Platform By <span className=" text-red-500"> KUNAL BHANUSE</span>
         </div>
 
         <h1

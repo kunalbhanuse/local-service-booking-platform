@@ -1,5 +1,5 @@
 export const adminMiddleware = async (req, res, next) => {
-  console.log("adminMiddlware");
+  // console.log("adminMiddlware");
   try {
     if (!req.user) {
       return res.status(401).json({

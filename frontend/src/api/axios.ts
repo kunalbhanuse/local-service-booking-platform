@@ -22,7 +22,8 @@ api.interceptors.response.use(
     if (
       error.response &&
       error.response.status === 401 &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/rotateToken")
     ) {
       originalRequest._retry = true;
 
