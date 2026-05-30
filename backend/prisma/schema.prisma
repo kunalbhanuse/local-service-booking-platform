@@ -30,7 +30,7 @@ model Provider {
   userId Int  @unique
   user   User @relation(fields: [userId], references: [id])
 
-  businessName String?
+  businessName String
   bio          String?
   phone        String
   city         String
@@ -66,10 +66,17 @@ model Service {
   name        String
   description String?
   price       Float
-  duration    Int?     // in minutes
-  category    String?
+  category    ServiceCategory
   isActive    Boolean  @default(true)
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+enum ServiceCategory {
+  PLUMBING
+  ELECTRICAL
+  CLEANING
+  CARPENTRY
+  PAINTING
 }

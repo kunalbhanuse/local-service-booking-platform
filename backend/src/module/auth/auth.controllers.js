@@ -84,9 +84,15 @@ export async function login(req, res) {
       where: { id: user.id },
       data: { refreshToken: hash_refresh_token },
     });
+    const userResponse = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
 
     return res.status(200).json({
-      data: { access_token, user },
+      data: { access_token, user: userResponse },
       message: "Login successfully",
     });
   } catch (error) {

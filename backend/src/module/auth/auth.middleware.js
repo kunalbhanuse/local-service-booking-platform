@@ -7,7 +7,7 @@ export const isLoggedIn = async (req, res, next) => {
     // console.log("AUTH HEADER:", req.headers.authorization);
     if (!header || !header.startsWith("Bearer ")) {
       return res.status(401).json({
-        message: "forbidden",
+        message: "Unauthorized",
       });
     }
     const token = header.split(" ")[1];
@@ -16,7 +16,7 @@ export const isLoggedIn = async (req, res, next) => {
     // console.log("DECODE:", decode);
     if (!decode) {
       return res.status(401).json({
-        message: "forbidden",
+        message: "Unauthorized",
       });
     }
     const user = await prisma.user.findUnique({
