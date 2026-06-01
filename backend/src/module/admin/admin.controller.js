@@ -97,6 +97,20 @@ export const updateProviderStatus = async (req, res) => {
       });
     }
 
+    if (status === "APPROVED") {
+      const updateRole = await prisma.user.update({
+        where: { id: provider.userId },
+        data: { role: "SERVICE_PROVIDER" },
+      });
+      if (!updateRole) {
+        return res.status(400).json({
+          error: {
+            message: "Failed to update user role",
+          },
+        });
+      }
+    }
+
     const updateProvider = await prisma.provider.update({
       where: { id: Number(id) },
       data: { status },
