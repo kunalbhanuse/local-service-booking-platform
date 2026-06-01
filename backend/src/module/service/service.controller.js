@@ -73,3 +73,23 @@ export async function updateService(req, res) {
     });
   }
 }
+
+export async function getAllServices(req, res) {
+  try {
+    if (!req.user) {
+      return res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+    const allService = await prisma.service.findMany();
+    return res.status(200).json({
+      success: true,
+      message: "Service feached Succfully",
+      data: allService,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: { message: error.message || "Internal Server Error" },
+    });
+  }
+}
