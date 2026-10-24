@@ -25,4 +25,6 @@ adminRouter.post(
   adminMiddleware,
   controller.updateProviderStatus,
 );
+adminRouter.get("/stats", isLoggedIn, adminMiddleware, controller.getStats);
+
 export default adminRouter;
