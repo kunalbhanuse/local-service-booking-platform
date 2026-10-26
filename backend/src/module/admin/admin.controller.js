@@ -1,5 +1,6 @@
 import { prisma } from "../../common/db/prisma.js";
 import { updateProviderStatusSchema } from "./dto/admin.dto.js";
+import { handleError } from "../../common/utility/http.js";
 
 export const getAllProvider = async (req, res) => {
   // console.log("getallProvider Hit");
@@ -124,5 +125,40 @@ export const updateProviderStatus = async (req, res) => {
     return res.status(500).json({
       message: error.message,
     });
+  }
+};
+
+// Platform-wide counters for the admin overview.
+export const getStats = async (req, res) => {
+  try {
+    const [users, providersByStatus, services, bookingsByStatus] =
+      await prisma.$transaction([
+        prisma.user.count(),
+        prisma.provider.groupBy({ by: ["status"], _count: { _all: true } }),
+        prisma.service.count({ where: { isActive: true } }),
+        prisma.booking.groupBy({ by: ["status"], _count: { _all: true } }),
+      ]);
+
+    const fold = (rows, keys) =>
+      Object.fromEntries(
+        keys.map((k) => [k, rows.find((r) => r.status === k)?._count._all ?? 0]),
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        users,
+        activeServices: services,
+        providers: fold(providersByStatus, ["PENDING", "APPROVED", "REJECTED"]),
+        bookings: fold(bookingsByStatus, [
+          "PENDING",
+          "CONFIRMED",
+          "COMPLETED",
+          "CANCELLED",
+        ]),
+      },
+    });
+  } catch (error) {
+    return handleError(res, error);
   }
 };
