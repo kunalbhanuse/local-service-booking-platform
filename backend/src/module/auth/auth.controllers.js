@@ -11,6 +11,7 @@ import {
 } from "../../common/utility/jwt.utility.js";
 import { sendMail } from "../../common/utility/email.js";
 import crypto from "crypto";
+import { handleError } from "../../common/utility/http.js";
 
 export async function signup(req, res) {
   try {
@@ -301,5 +302,27 @@ export async function logout(req, res) {
     return res.status(500).json({
       message: error.message || "Internal server error",
     });
+  }
+}
+
+// Session bootstrap for the SPA: the logged-in user (with role) plus their provider profile, if any.
+export async function profile(req, res) {
+  try {
+    const provider = await prisma.provider.findUnique({
+      where: { userId: req.user.id },
+      select: {
+        id: true,
+        status: true,
+        businessName: true,
+        city: true,
+        isAvailable: true,
+      },
+    });
+    return res.status(200).json({
+      success: true,
+      data: { user: req.user, provider: provider ?? null },
+    });
+  } catch (error) {
+    return handleError(res, error);
   }
 }
