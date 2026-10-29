@@ -13,4 +13,6 @@ authRouter.post("/rotateToken", controller.rotateTokens);
 
 authRouter.post("/forgetPassword", controller.forgetPassword);
 authRouter.post("/resetPassword", controller.resetPassword);
+authRouter.get("/profile", isLoggedIn, controller.profile);
+
 export default authRouter;
