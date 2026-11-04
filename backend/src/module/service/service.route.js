@@ -27,4 +27,9 @@ serviceRouter.delete(
 );
 
 serviceRouter.get("/getServiceById/:id", isLoggedIn, controller.getServiceById);
+serviceRouter.get("/public", controller.getPublicServices);
+serviceRouter.get("/public/meta", controller.getPublicServiceMeta);
+serviceRouter.get("/public/:id", controller.getPublicServiceById);
+serviceRouter.get("/mine", isLoggedIn, isProvider, controller.getMyServices);
+
 export default serviceRouter;
