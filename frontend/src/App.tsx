@@ -1,14 +1,19 @@
-import { Routes } from "react-router-dom";
-import "./App.css";
-import AuthRoutes from "./routes/AuthRoutes.tsx";
-import AdminRoutes from "./routes/AdminRoutes.tsx";
+import { ThemeProvider } from "@/context/ThemeProvider";
+import { AuthProvider } from "@/context/AuthProvider";
+import { ToastProvider } from "@/context/ToastProvider";
+import { Toaster } from "@/components/Toaster";
+import { AppRoutes } from "@/routes";
 
 function App() {
   return (
-    <Routes>
-      {AuthRoutes}
-      {AdminRoutes}
-    </Routes>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <AppRoutes />
+          <Toaster />
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   );
 }
 
